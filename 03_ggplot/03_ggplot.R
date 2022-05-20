@@ -2,7 +2,10 @@
 
 # Instalacion de la libreria 
 # install.packages('tidyverse')
-# cargar libreria 
-library(ggplot2)
 
-setwd()
+
+# cargar libreria 
+library(tidyverse)
+library(readxl)
+
+enoe <- read_xlsx("mu_enoe.xlsx")
