@@ -103,3 +103,66 @@ ggplot( data = enoe, mapping = aes(x = anios_esc, y = ingreso_mensual)) +
   geom_point(mapping = aes(color = niv_edu), show.legend = FALSE)
 # En esta grafica los puntos son los datos del todo el pais, pero la linea los 
 # datos de Jalisco. 
+
+
+# Transformaciones estáditicas. 
+
+# Grafica de barras por sexo
+ggplot( data = enoe) + 
+  geom_bar(mapping = aes(x = sex, y=..prop.., group = 1))
+
+ggplot( data = enoe) + 
+  stat_count(mapping = aes(x = sex))
+
+# Estas dos grafcas son similares, pero la ultima es una transformacion 
+# estadística asociada a las graficas de barras. 
+
+ggplot(data = enoe) + stat_summary(
+  mapping = aes(x = sex, y = ingreso_mensual),
+  fun.min = min,
+  fun.max = max,
+  fun = median
+)
+# Estas graficas nos permiten hacer un analisis estadístco con el grafico. 
+
+# Grafica de barras apiladas
+ggplot(data = enoe) + 
+  geom_bar(mapping = aes(x = sex, fill = sex))
+  
+ggplot(data = enoe) + 
+  geom_bar(mapping = aes(x = sex, fill = niv_edu))
+
+ggplot(data = enoe, mapping = aes(x = sex, fill = niv_edu)) +
+  geom_bar(position = "fill")
+# En este caso se aprecia mejor ya que la categoria esta a 100 porciento
+# tanto de hombres y de mujeres. Que es mejor que la gráfica previa. 
+
+ggplot(data = enoe, mapping = aes(x = sex, fill = niv_edu)) +
+  geom_bar(position = "dodge") + labs(title = "Sexo y nivel educativo", x = "Sexo", y = "Observaciones")
+# dodge pone una al lado de otra.
+
+# jitter
+ggplot( data = enoe) + 
+  geom_point(mapping = aes(x = anios_esc, y = ingreso_mensual), position = "jitter")
+
+# Sistema de coordenadas. 
+# Diagrama de caja y bigotes.
+ggplot(data = enoe, mapping = aes(x = niv_edu, y = ingreso_mensual), position = "jitter") + 
+  geom_boxplot() + coord_flip()
+# Rotar un boxplot
+
+# Coordenadas polares para hacer gráficos de pastel. 
+
+barras <- ggplot(data = enoe) + geom_bar(mapping = aes(x = niv_edu, fill = niv_edu),
+                               show.legend = FALSE, width = 1) + 
+  theme(aspect.ratio = 1) + 
+  labs(x = NULL, y = NULL)
+
+# Esta es una gráfica de coordenas polares. 
+barras + coord_polar()
+
+# Esta es una gráfia de pastel.
+ggplot(data = enoe, mapping = aes(x = factor(1), fill = niv_edu)) + 
+  geom_bar(position = "fill") + 
+  coord_polar(theta = "y") + 
+  labs(x = " ", y = " ")
